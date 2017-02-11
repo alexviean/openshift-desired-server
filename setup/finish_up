@@ -1,0 +1,43 @@
+#!/bin/sh
+#
+function clean_up() {
+
+	## SHRINKING FILESIZE BY REMOVING INSIDED DEBUG LOGS
+
+	cd $OPENSHIFT_DATA_DIR/php/bin
+	objcopy --strip-debug php
+	objcopy --strip-debug php-cgi
+	objcopy --strip-debug phpdbg
+
+	cd $OPENSHIFT_DATA_DIR/httpd/modules
+	objcopy --strip-debug libphp7.so
+
+	cd $OPENSHIFT_DATA_DIR/httpd/bin
+	objcopy --strip-debug httpd
+	objcopy --strip-debug ab
+	objcopy --strip-debug fcgistarter
+	objcopy --strip-debug htcacheclean
+	objcopy --strip-debug htdbm
+	objcopy --strip-debug htdigest
+	objcopy --strip-debug htpasswd
+	objcopy --strip-debug logresolve
+	objcopy --strip-debug rotatelogs
+
+	## COPY SETTING FILES
+
+	cp $OPENSHIFT_REPO_DIR/conf/bash_profile.tpl $OPENSHIFT_DATA_DIR/.bash_profile
+	python $OPENSHIFT_REPO_DIR/setup/conf.py
+
+}
+
+function start_server() {
+	$OPENSHIFT_DATA_DIR/httpd/bin/apachectl start
+}
+
+function wipe_out() {
+	cd $OPENSHIFT_REPO_DIR
+	rm -rf conf setup htdocs/index.cgi
+	cd .openshift/action_hooks
+	rm -f build reload restart start stop
+	mv build.bak build && mv reload.bak reload && mv restart.bak restart && mv start.bak start && mv stop.bak stop
+}

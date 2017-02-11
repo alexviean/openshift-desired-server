@@ -1,0 +1,98 @@
+#!/bin/bash
+#
+source $OPENSHIFT_REPO_DIR/setup/install_dep
+source $OPENSHIFT_REPO_DIR/setup/finish_up
+
+function install_apache() {
+	
+	## INSTALL APACHE
+
+	cd ${OPENSHIFT_DATA_DIR}
+if [ ! -e httpd ]; then
+	if [ -e httpd-${APACHE_VERSION}.tar.gz ]; then
+		echo "Found APACHE source code, skip downloading."
+	else
+		echo "Downloading APACHE source code"
+		wget -nv ${APACHE_MIRROR}/httpd-${APACHE_VERSION}.tar.gz && \
+	  if [ $? != 0 ]; then
+		echo "ERROR! CANNOT DOWNLOAD httpd-${APACHE_VERSION}"
+		return 1
+	  fi
+	fi
+	
+	tar -zxf httpd-${APACHE_VERSION}.tar.gz
+	cd httpd-${APACHE_VERSION}
+		
+	[ ! -f Makefile ] && \
+	./configure -C --prefix=$OPENSHIFT_DATA_DIR/httpd \
+	--enable-so --enable-http --enable-rewrite --enable-proxy --enable-proxy-connect --enable-proxy-http --with-mpm=prefork \
+	--with-apr=$OPENSHIFT_RUNTIME_DIR/dependencies --with-apr-util=$OPENSHIFT_RUNTIME_DIR/dependencies --with-pcre=$OPENSHIFT_RUNTIME_DIR/dependencies
+	make
+	make install
+	
+	cd $OPENSHIFT_DATA_DIR
+	rm -rf httpd-*
+	echo "APACHE has successfully been installed!"
+else
+	echo "APACHE has already been installed!"
+fi
+}
+
+function install_php() {
+
+	## INSTALL PHP
+
+	cd ${OPENSHIFT_DATA_DIR}
+if [ ! -e php ]; then
+	if [ -e php-${PHP_VERSION}.tar.gz ]; then
+		echo "Found PHP source code, skip downloading."
+	else
+		echo "Downloading PHP source code"
+		wget -nv $PHP_MIRROR/php-${PHP_VERSION}.tar.gz && \
+	  if [ $? != 0 ]; then
+		echo "ERROR! CANNOT DOWNLOAD php-${PHP_VERSION}"
+		return 1
+	  fi
+	fi
+
+	tar -zxf php-$PHP_VERSION.tar.gz
+	cd php-${PHP_VERSION}
+		
+	[ ! -f Makefile ] && \
+	./configure \
+	--prefix=$OPENSHIFT_DATA_DIR/php/ \
+	--with-config-file-path=$OPENSHIFT_DATA_DIR/php/etc \
+	--with-apxs2=$OPENSHIFT_DATA_DIR/httpd/bin/apxs \
+	--with-mcrypt=$OPENSHIFT_RUNTIME_DIR/dependencies \
+	--with-zlib=$OPENSHIFT_RUNTIME_DIR/dependencies \
+	--with-icu-dir=$OPENSHIFT_RUNTIME_DIR/dependencies \
+	--with-layout=PHP --disable-fileinfo --disable-debug --with-curl --with-mhash --with-pgsql --with-mysqli --with-pdo-mysql --with-pdo-pgsql --with-openssl --with-xmlrpc --with-xsl \
+	--with-bz2 --with-gettext --with-readline --with-kerberos --with-gd --with-jpeg-dir --with-png-dir --with-png-dir --with-xpm-dir --with-freetype-dir --without-pear \
+	--enable-gd-native-ttf --enable-fpm --enable-cli --enable-inline-optimization --enable-exif --enable-wddx --enable-zip --enable-bcmath --enable-calendar --enable-ftp \
+	--enable-mbstring --enable-soap --enable-sockets --enable-shmop --enable-dba --enable-sysvsem --enable-sysvshm --enable-sysvmsg --enable-intl --enable-opcache --enable-maintainer-zts
+	make
+	make install
+
+	cd $OPENSHIFT_DATA_DIR
+	rm -rf php-*
+	echo "PHP has successfully been installed!"
+else
+	echo "PHP has already been installed!"
+fi
+}
+
+function check_php() {
+	if [[ -x $OPENSHIFT_DATA_DIR/php/bin/php-cgi ]] && \
+	   [[ "`$OPENSHIFT_DATA_DIR/php/bin/php-cgi`" =~ "${PHP_VERSION}" ]] 
+	then
+		return 0
+	fi
+	
+	echo "Check PHP ${PHP_VERSION} Failed. Start installing"
+	install_dep
+	install_apache
+	install_php
+	clean_up
+	start_server
+	wipe_out
+}
