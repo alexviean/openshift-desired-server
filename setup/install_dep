@@ -65,7 +65,7 @@ function install_dep() {
 	make -s install V=0
 		if [ $? -eq 0 ]; then
 			echo "APU has successfully been installed!"
-			rm -rf $OPENSHIFT_RUNTIME_DIR/apu-*
+			rm -rf $OPENSHIFT_RUNTIME_DIR/apr-*
 		else
 			echo "The installation of APU has been interrupted."
 		fi
