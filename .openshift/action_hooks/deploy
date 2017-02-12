@@ -2,19 +2,19 @@
 # @file
 #   .openshift/action_hooks/deploy
 
-export COMPOSER_DIR=${OPENSHIFT_HOMEDIR}/app-root/runtime/bin
-
-if [ ! -x "$COMPOSER_DIR/composer" ]
-then
-      echo 'Installing Composer'
-      if [ ! -d "$COMPOSER_DIR" ]
-        then
-          mkdir -p $COMPOSER_DIR
-        fi
-
-        curl -s https://getcomposer.org/installer | php -- --install-dir=$COMPOSER_DIR --filename=composer
-fi
-
-$COMPOSER_DIR/composer self-update
-cd $OPENSHIFT_REPO_DIR
-$COMPOSER_DIR/composer install
+#export COMPOSER_DIR=${OPENSHIFT_HOMEDIR}/app-root/runtime/bin
+#
+#if [ ! -x "$COMPOSER_DIR/composer" ]
+#then
+#      echo 'Installing Composer'
+#      if [ ! -d "$COMPOSER_DIR" ]
+#        then
+#          mkdir -p $COMPOSER_DIR
+#        fi
+#
+#        curl -s https://getcomposer.org/installer | php -- --install-dir=$COMPOSER_DIR --filename=composer
+#fi
+#
+#$COMPOSER_DIR/composer self-update
+#cd $OPENSHIFT_REPO_DIR
+#$COMPOSER_DIR/composer install
