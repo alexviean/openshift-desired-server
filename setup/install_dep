@@ -1,162 +1,182 @@
 #!/bin/bash
-#
+
 function install_dep() {
-	
-    	## INSTALL PCRE
-    cd $OPENSHIFT_RUNTIME_DIR
-    if [ ! -e dependencies/lib/libpcre.a ]; then
-        if [ ! -e pcre-"$PCRE_VERSION".tar.gz ]; then
-        wget "$PCRE_MIRROR"/pcre-"$PCRE_VERSION".tar.gz
-        fi
-    rm -rf pcre-$PCRE_VERSION
-    tar -xvzf pcre-$PCRE_VERSION.tar.gz
-    cd pcre-$PCRE_VERSION
-    ./configure -C --prefix=$OPENSHIFT_RUNTIME_DIR/dependencies --disable-cpp --enable-unicode-properties
-    ./config.status -q
-    make -s -j3 V=0 || make
-    make -s install V=0
-    echo "PCRE has successfully been installed!"
-    else
-        echo "PCRE has already been installed!"
-    fi
 
-    	## CLEAN INSTALLATION FILES
-    cd $OPENSHIFT_RUNTIME_DIR
-    rm -rf pcre-*
+### INSTALL PCRE
+	cd $OPENSHIFT_RUNTIME_DIR
+	if [ ! -e dependencies/lib/libpcre.a ]; then
+		if [ ! -e pcre-"$PCRE_VERSION".tar.gz ]; then
+		wget "$PCRE_MIRROR"/pcre-"$PCRE_VERSION".tar.gz
+		fi
+	rm -rf pcre-$PCRE_VERSION
+	tar -xvzf pcre-$PCRE_VERSION.tar.gz
+	cd pcre-$PCRE_VERSION
+	./configure -C --prefix=$OPENSHIFT_RUNTIME_DIR/dependencies --disable-cpp --enable-unicode-properties
+	./config.status -q
+	make -s -j3 V=0 || make
+	make -s install V=0
+		if [ $? -eq 0 ]; then
+			echo "PCRE has successfully been installed!"
+			cd $OPENSHIFT_DATA_DIR
+			rm -rf pcre-*
+		else
+			echo "The installation of PCRE has been interrupted."
+		fi
+	else
+		echo "PCRE has already been installed!"
+	fi
 
-    	## INSTALL APR
+### INSTALL APR
 
-    if [ ! -e dependencies/include/apr-1 ]; then
-        if [ ! -e apr-$APR_VERSION.tar.gz ]; then
-        wget $APR_MIRROR/apr-$APR_VERSION.tar.gz
-        fi
-    rm -rf apr-$APR_VERSION
-    tar -xvzf apr-$APR_VERSION.tar.gz
-    cd apr-$APR_VERSION
-    ./configure -C --prefix=$OPENSHIFT_RUNTIME_DIR/dependencies --enable-nonportable-atomics
-    ./config.status -q
-    make -s -j3 V=0 || make
-    make -s install V=0
-    echo "APR has successfully been installed!"
-    else
-        echo "APR has already been installed!"
-    fi
+	cd $OPENSHIFT_RUNTIME_DIR
+	if [ ! -e dependencies/include/apr-1 ]; then
+		if [ ! -e apr-$APR_VERSION.tar.gz ]; then
+		wget $APR_MIRROR/apr-$APR_VERSION.tar.gz
+		fi
+	rm -rf apr-$APR_VERSION
+	tar -xvzf apr-$APR_VERSION.tar.gz
+	cd apr-$APR_VERSION
+	./configure -C --prefix=$OPENSHIFT_RUNTIME_DIR/dependencies --enable-nonportable-atomics
+	./config.status -q
+	make -s -j3 V=0 || make
+	make -s install V=0
+		if [ $? -eq 0 ]; then
+			echo "APR has successfully been installed!"
+			cd $OPENSHIFT_DATA_DIR
+			rm -rf apr-*
+		else
+			echo "The installation of APR has been interrupted."
+		fi
+	else
+		echo "APR has already been installed!"
+	fi
 
-    	## CLEAN INSTALLATION FILES
-    cd $OPENSHIFT_RUNTIME_DIR
-    rm -rf apr-*
+### INSTALL APU
 
-    	## INSTALL APU
+	cd $OPENSHIFT_RUNTIME_DIR
+	if [ ! -e dependencies/bin/apu-1-config ]; then
+		if [ ! -e apr-util-$APU_VERSION.tar.gz ]; then
+		wget $APR_MIRROR/apr-util-$APU_VERSION.tar.gz
+		fi
+	rm -rf apr-util-$APU_VERSION
+	tar -xvzf apr-util-$APU_VERSION.tar.gz
+	cd apr-util-$APU_VERSION
+	./configure -C --prefix=$OPENSHIFT_RUNTIME_DIR/dependencies --with-apr=$OPENSHIFT_RUNTIME_DIR/dependencies
+	./config.status -q
+	make -s -j3 V=0 || make
+	make -s install V=0
+		if [ $? -eq 0 ]; then
+			echo "APU has successfully been installed!"
+			cd $OPENSHIFT_DATA_DIR
+			rm -rf apu-*
+		else
+			echo "The installation of APU has been interrupted."
+		fi
+	else
+		echo "APU has already been installed!"
+	fi
 
-    if [ ! -e dependencies/bin/apu-1-config ]; then
-        if [ ! -e apr-util-$APU_VERSION.tar.gz ]; then
-        wget $APR_MIRROR/apr-util-$APU_VERSION.tar.gz
-        fi
-    rm -rf apr-util-$APU_VERSION
-    tar -xvzf apr-util-$APU_VERSION.tar.gz
-    cd apr-util-$APU_VERSION
-    ./configure -C --prefix=$OPENSHIFT_RUNTIME_DIR/dependencies --with-apr=$OPENSHIFT_RUNTIME_DIR/dependencies
-    ./config.status -q
-    make -s -j3 V=0 || make
-    make -s install V=0
-    echo "APU has successfully been installed!"
-    else
-        echo "APU has already been installed!"
-    fi
-
-    	## CLEAN INSTALLATION FILES
-    cd $OPENSHIFT_RUNTIME_DIR
-    rm -rf apr-*
-
-		## INSTALL ICU
+### INSTALL ICU
 
 	cd $OPENSHIFT_RUNTIME_DIR
 	if [ ! -e dependencies/lib/icu ]; then
-	    if [ ! -e icu4c-${ICU_VERSION[1]}-src.tgz ]; then
-	    wget $ICU_MIRROR/${ICU_VERSION[0]}/icu4c-${ICU_VERSION[1]}-src.tgz
-	    fi
+		if [ ! -e icu4c-${ICU_VERSION[1]}-src.tgz ]; then
+		wget $ICU_MIRROR/${ICU_VERSION[0]}/icu4c-${ICU_VERSION[1]}-src.tgz
+		fi
 	rm -rf icu
 	tar -zxf icu4c-${ICU_VERSION[1]}-src.tgz
 	cd icu/source/
 	chmod +x runConfigureICU configure install-sh
 	./configure --prefix=$OPENSHIFT_RUNTIME_DIR/dependencies/
 	make && make install
-	echo "ICU has successfully been installed!"
+		if [ $? -eq 0 ]; then
+			echo "ICU has successfully been installed!"
+			cd $OPENSHIFT_DATA_DIR
+			rm -rf icu-*
+		else
+			echo "The installation of ICU has been interrupted."
+		fi
 	else
-	    echo "ICU has already been installed!"
+		echo "ICU has already been installed!"
 	fi
 
-		## CLEAN INSTALLATION FILES
+## INSTALL ZLIB
+
 	cd $OPENSHIFT_RUNTIME_DIR
-	rm -rf icu*
-
-		## INSTALL ZLIB
-
 	if [ ! -e dependencies/include/zlib.h ]; then
-	    if [ ! -e zlib-${ZLIB_VERSION}.tar.gz ]; then
-	    wget ${ZLIB_MIRROR}/${ZLIB_VERSION}/zlib-${ZLIB_VERSION}.tar.gz
-	    fi
+		if [ ! -e zlib-${ZLIB_VERSION}.tar.gz ]; then
+		wget ${ZLIB_MIRROR}/${ZLIB_VERSION}/zlib-${ZLIB_VERSION}.tar.gz
+		fi
 	rm -rf zlib-$ZLIB_VERSION
 	tar -zxf zlib-$ZLIB_VERSION.tar.gz
 	cd zlib-$ZLIB_VERSION
 	chmod +x configure
 	./configure --prefix=$OPENSHIFT_RUNTIME_DIR/dependencies/
 	make && make install
-	echo "ZLIB has successfully been installed!"
+		if [ $? -eq 0 ]; then
+			echo "ZLIB has successfully been installed!"
+			cd $OPENSHIFT_DATA_DIR
+			rm -rf zlib-*
+		else
+			echo "The installation of ZLIB has been interrupted."
+		fi
 	else
-	    echo "ZLIB has already been installed!"
+		echo "ZLIB has already been installed!"
 	fi
 
-		## CLEAN INSTALLATION FILES
+### INSTALL RE2C
+
 	cd $OPENSHIFT_RUNTIME_DIR
-	rm -rf zlib-*
-
-		## INSTALL RE2C
-
 	if [ ! -e dependencies/bin/re2c ]; then
-	    if [ ! -e re2c-${RE2C_VERSION}.tar.gz ]; then
-	    wget $RE2C_MIRROR/${RE2C_VERSION}/re2c-${RE2C_VERSION}.tar.gz
-	    fi
+		if [ ! -e re2c-${RE2C_VERSION}.tar.gz ]; then
+		wget $RE2C_MIRROR/${RE2C_VERSION}/re2c-${RE2C_VERSION}.tar.gz
+		fi
 	rm -rf re2c-$RE2C_VERSION
 	tar -zxf re2c-${RE2C_VERSION}.tar.gz
 	cd re2c-$RE2C_VERSION
 	./configure --prefix=$OPENSHIFT_RUNTIME_DIR/dependencies/
 	make install
-	echo "RE2C has successfully been installed!"
+		if [ $? -eq 0 ]; then
+			echo "RE2C has successfully been installed!"
+			cd $OPENSHIFT_DATA_DIR
+			rm -rf re2c-*
+		else
+			echo "The installation of RE2C has been interrupted."
+		fi
 	else
-	    echo "RE2C has already been installed!"
+		echo "RE2C has already been installed!"
 	fi
 
-		## CLEAN INSTALLATION FILES
-	cd $OPENSHIFT_RUNTIME_DIR 
-	rm -rf re2c-*
+### INSTALL BISON
 
-		## INSTALL BISON
-
+	cd $OPENSHIFT_RUNTIME_DIR
 	if [ ! -e dependencies/bin/bison ]; then
-	    if [ ! -e bison-${BISON_VERSION}.tar.gz ]; then
-	    wget $BISON_MIRROR/bison-${BISON_VERSION}.tar.gz
-	    fi
+		if [ ! -e bison-${BISON_VERSION}.tar.gz ]; then
+		wget $BISON_MIRROR/bison-${BISON_VERSION}.tar.gz
+		fi
 	rm -rf bison-${BISON_VERSION}
 	tar -zxf bison-${BISON_VERSION}.tar.gz
 	cd bison-${BISON_VERSION}
 	./configure --prefix=$OPENSHIFT_RUNTIME_DIR/dependencies/
 	make install
-	echo "BISON has successfully been installed!"
+		if [ $? -eq 0 ]; then
+			echo "BISON has successfully been installed!"
+			cd $OPENSHIFT_DATA_DIR
+			rm -rf bison-*
+		else
+			echo "The installation of BISON has been interrupted."
+		fi
 	else
-	    echo "BISON has already been installed!"
+		echo "BISON has already been installed!"
 	fi
 
-		## CLEAN INSTALLATION FILES
+### INSTALL MCRYPT
+
 	cd $OPENSHIFT_RUNTIME_DIR
-	rm -rf bison-*
-
-		## INSTALL MCRYPT
-
 	if [ ! -e dependencies/lib/libmcrypt ]; then
-	    if [ ! -e libmcrypt-$MCRYPT_VERSION.tar.gz ]; then
-	    wget $MCRYPT_MIRROR/$MCRYPT_VERSION/libmcrypt-$MCRYPT_VERSION.tar.gz
-	    fi
+		if [ ! -e libmcrypt-$MCRYPT_VERSION.tar.gz ]; then
+		wget $MCRYPT_MIRROR/$MCRYPT_VERSION/libmcrypt-$MCRYPT_VERSION.tar.gz
+		fi
 	rm -rf libmcrypt-$MCRYPT_VERSION
 	tar -zxf libmcrypt-$MCRYPT_VERSION.tar.gz
 	cd libmcrypt-$MCRYPT_VERSION
@@ -164,33 +184,37 @@ function install_dep() {
 	--prefix=$OPENSHIFT_RUNTIME_DIR/dependencies/ \
 	--disable-posix-threads
 	make install
-	echo "MCRYPT has successfully been installed!"
+		if [ $? -eq 0 ]; then
+			echo "MCRYPT has successfully been installed!"
+			cd $OPENSHIFT_DATA_DIR
+			rm -rf libmcrypt-*
+		else
+			echo "The installation of MCRYPT has been interrupted."
+		fi
 	else
-	    echo "MCRYPT has already been installed!"
+		echo "MCRYPT has already been installed!"
 	fi
 
-		## CLEAN INSTALLATION FILES
+### INSTALL LIBTOOL
+
 	cd $OPENSHIFT_RUNTIME_DIR
-	rm -rf libmcrypt-*
-
-		## INSTALL LIBTOOL
-
 	if [ ! -e dependencies/bin/libtool ]; then
-	    if [ ! -e libtool-${LIBTOOL_VERSION}.tar.gz ]; then
-	    wget $LIBTOOL_MIRROR/libtool-${LIBTOOL_VERSION}.tar.gz
-	    fi
+		if [ ! -e libtool-${LIBTOOL_VERSION}.tar.gz ]; then
+		wget $LIBTOOL_MIRROR/libtool-${LIBTOOL_VERSION}.tar.gz
+		fi
 	rm -rf libtool-${LIBTOOL_VERSION}
 	tar -zxf libtool-${LIBTOOL_VERSION}.tar.gz
 	cd libtool-${LIBTOOL_VERSION}
 	./configure --prefix=$OPENSHIFT_RUNTIME_DIR/dependencies/
 	make install
-	echo "LIBTOOL has successfully been installed!"
+		if [ $? -eq 0 ]; then
+			echo "LIBTOOL has successfully been installed!"
+			cd $OPENSHIFT_DATA_DIR
+			rm -rf libtool-*
+		else
+			echo "The installation of LIBTOOL has been interrupted."
+		fi
 	else
-	    echo "LIBTOOL has already been installed!"
+		echo "LIBTOOL has already been installed!"
 	fi
-
-		## CLEAN INSTALLATION FILES
-	cd $OPENSHIFT_RUNTIME_DIR
-	rm -rf libtool-*
-
 }
