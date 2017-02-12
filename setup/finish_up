@@ -42,5 +42,5 @@ function wipe_out() {
 	rm -rf conf setup htdocs/index.cgi
 	cd .openshift/action_hooks
 	rm -f build reload restart start stop
-	mv build.bak build && mv reload.bak reload && mv restart.bak restart && mv start.bak start && mv stop.bak stop
+	mv build.tpl build && mv reload.tpl reload && mv restart.tpl restart && mv start.tpl start && mv stop.tpl stop
 }
