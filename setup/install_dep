@@ -17,7 +17,7 @@ function install_dep() {
 	make -s install V=0
 		if [ $? -eq 0 ]; then
 			echo "PCRE has successfully been installed!"
-			rm -rf pcre-*
+			rm -rf $OPENSHIFT_RUNTIME_DIR/pcre-*
 		else
 			echo "The installation of PCRE has been interrupted."
 		fi
@@ -41,7 +41,7 @@ function install_dep() {
 	make -s install V=0
 		if [ $? -eq 0 ]; then
 			echo "APR has successfully been installed!"
-			rm -rf apr-*
+			rm -rf $OPENSHIFT_RUNTIME_DIR/apr-*
 		else
 			echo "The installation of APR has been interrupted."
 		fi
@@ -65,7 +65,7 @@ function install_dep() {
 	make -s install V=0
 		if [ $? -eq 0 ]; then
 			echo "APU has successfully been installed!"
-			rm -rf apu-*
+			rm -rf $OPENSHIFT_RUNTIME_DIR/apu-*
 		else
 			echo "The installation of APU has been interrupted."
 		fi
@@ -88,7 +88,7 @@ function install_dep() {
 	make && make install
 		if [ $? -eq 0 ]; then
 			echo "ICU has successfully been installed!"
-			rm -rf icu*
+			rm -rf $OPENSHIFT_RUNTIME_DIR/icu*
 		else
 			echo "The installation of ICU has been interrupted."
 		fi
@@ -111,7 +111,7 @@ function install_dep() {
 	make && make install
 		if [ $? -eq 0 ]; then
 			echo "ZLIB has successfully been installed!"
-			rm -rf zlib-*
+			rm -rf $OPENSHIFT_RUNTIME_DIR/zlib-*
 		else
 			echo "The installation of ZLIB has been interrupted."
 		fi
@@ -133,7 +133,7 @@ function install_dep() {
 	make install
 		if [ $? -eq 0 ]; then
 			echo "RE2C has successfully been installed!"
-			rm -rf re2c-*
+			rm -rf $OPENSHIFT_RUNTIME_DIR/re2c-*
 		else
 			echo "The installation of RE2C has been interrupted."
 		fi
@@ -155,7 +155,7 @@ function install_dep() {
 	make install
 		if [ $? -eq 0 ]; then
 			echo "BISON has successfully been installed!"
-			rm -rf bison-*
+			rm -rf $OPENSHIFT_RUNTIME_DIR/bison-*
 		else
 			echo "The installation of BISON has been interrupted."
 		fi
@@ -179,7 +179,7 @@ function install_dep() {
 	make install
 		if [ $? -eq 0 ]; then
 			echo "MCRYPT has successfully been installed!"
-			rm -rf libmcrypt-*
+			rm -rf $OPENSHIFT_RUNTIME_DIR/libmcrypt-*
 		else
 			echo "The installation of MCRYPT has been interrupted."
 		fi
@@ -201,7 +201,7 @@ function install_dep() {
 	make install
 		if [ $? -eq 0 ]; then
 			echo "LIBTOOL has successfully been installed!"
-			rm -rf libtool-*
+			rm -rf $OPENSHIFT_RUNTIME_DIR/libtool-*
 		else
 			echo "The installation of LIBTOOL has been interrupted."
 		fi
