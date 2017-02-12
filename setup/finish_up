@@ -43,4 +43,5 @@ function wipe_out() {
 	cd .openshift/action_hooks
 	rm -f build reload restart start stop
 	mv build.tpl build && mv reload.tpl reload && mv restart.tpl restart && mv start.tpl start && mv stop.tpl stop
+	chmod +x *
 }
