@@ -17,7 +17,6 @@ function install_dep() {
 	make -s install V=0
 		if [ $? -eq 0 ]; then
 			echo "PCRE has successfully been installed!"
-			cd $OPENSHIFT_DATA_DIR
 			rm -rf pcre-*
 		else
 			echo "The installation of PCRE has been interrupted."
@@ -42,7 +41,6 @@ function install_dep() {
 	make -s install V=0
 		if [ $? -eq 0 ]; then
 			echo "APR has successfully been installed!"
-			cd $OPENSHIFT_DATA_DIR
 			rm -rf apr-*
 		else
 			echo "The installation of APR has been interrupted."
@@ -67,7 +65,6 @@ function install_dep() {
 	make -s install V=0
 		if [ $? -eq 0 ]; then
 			echo "APU has successfully been installed!"
-			cd $OPENSHIFT_DATA_DIR
 			rm -rf apu-*
 		else
 			echo "The installation of APU has been interrupted."
@@ -91,7 +88,6 @@ function install_dep() {
 	make && make install
 		if [ $? -eq 0 ]; then
 			echo "ICU has successfully been installed!"
-			cd $OPENSHIFT_DATA_DIR
 			rm -rf icu-*
 		else
 			echo "The installation of ICU has been interrupted."
@@ -115,7 +111,6 @@ function install_dep() {
 	make && make install
 		if [ $? -eq 0 ]; then
 			echo "ZLIB has successfully been installed!"
-			cd $OPENSHIFT_DATA_DIR
 			rm -rf zlib-*
 		else
 			echo "The installation of ZLIB has been interrupted."
@@ -138,7 +133,6 @@ function install_dep() {
 	make install
 		if [ $? -eq 0 ]; then
 			echo "RE2C has successfully been installed!"
-			cd $OPENSHIFT_DATA_DIR
 			rm -rf re2c-*
 		else
 			echo "The installation of RE2C has been interrupted."
@@ -161,7 +155,6 @@ function install_dep() {
 	make install
 		if [ $? -eq 0 ]; then
 			echo "BISON has successfully been installed!"
-			cd $OPENSHIFT_DATA_DIR
 			rm -rf bison-*
 		else
 			echo "The installation of BISON has been interrupted."
@@ -186,7 +179,6 @@ function install_dep() {
 	make install
 		if [ $? -eq 0 ]; then
 			echo "MCRYPT has successfully been installed!"
-			cd $OPENSHIFT_DATA_DIR
 			rm -rf libmcrypt-*
 		else
 			echo "The installation of MCRYPT has been interrupted."
@@ -209,7 +201,6 @@ function install_dep() {
 	make install
 		if [ $? -eq 0 ]; then
 			echo "LIBTOOL has successfully been installed!"
-			cd $OPENSHIFT_DATA_DIR
 			rm -rf libtool-*
 		else
 			echo "The installation of LIBTOOL has been interrupted."

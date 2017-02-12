@@ -42,10 +42,10 @@ cat << EOF
 <h1> APACHE & PHP on OpenShift </h1>
 
 <p> Your desired server is not ready yet, please wait...</p>
-<p> Commonly, this progress will take less than 30 minutes.</p>
+<p> On a small gear, the whole progress will take more than 1 hour. So, be patient.</p>
 <p> Do NOT update / restart / stop your OpenShift App until this installation is completed.</p>
-<h2> Links </h2>
-<p> More Information: <a href='https://github.com/alexviean/openshift-php7-apache'>https://github.com/alexviean/openshift-php7-apache</a>
+<h2> Detail </h2>
+<p> More Information: <a href='https://github.com/alexviean/openshift-desired-server'>https://github.com/alexviean/openshift-desired-server</a>
 </p>
 <h2> Control </h2>
 
