@@ -4,33 +4,31 @@ function clean_up() {
 
 	## SHRINKING FILESIZE BY REMOVING INSIDED DEBUGGING SYMBOLS
 
-	cd $OPENSHIFT_DATA_DIR/php/bin
-	objcopy --strip-debug php
-	objcopy --strip-debug php-cgi
-	objcopy --strip-debug phpdbg
-	cd $OPENSHIFT_DATA_DIR/php/sbin
-	objcopy --strip-debug php-fpm
+	apac=( httpd ab fcgistarter htcacheclean htdbm htdigest htpasswd logresolve rotatelogs )
+	ph=( php php-cgi phpdbg )
+	depen=( bison pcregrep pcretest re2c )
+	single=( 'php/sbin/php-fpm' 'httpd/modules/libphp7.so' )
 
-	cd $OPENSHIFT_DATA_DIR/httpd/modules
-	objcopy --strip-debug libphp7.so
+	## SINGLE
+	for s in "${single[@]}"; do
+		objcopy --strip-debug $OPENSHIFT_DATA_DIR/$s
+	done
 
-	cd $OPENSHIFT_DATA_DIR/httpd/bin
-	objcopy --strip-debug httpd
-	objcopy --strip-debug ab
-	objcopy --strip-debug fcgistarter
-	objcopy --strip-debug htcacheclean
-	objcopy --strip-debug htdbm
-	objcopy --strip-debug htdigest
-	objcopy --strip-debug htpasswd
-	objcopy --strip-debug logresolve
-	objcopy --strip-debug rotatelogs
+	## PHP
+	for p in "${ph[@]}"; do
+		objcopy --strip-debug $OPENSHIFT_DATA_DIR/php/bin/$p
+	done
 
-	cd $OPENSHIFT_RUNTIME_DIR/dependencies/bin
-	objcopy --strip-debug bison
-	objcopy --strip-debug pcregrep
-	objcopy --strip-debug pcretest
-	objcopy --strip-debug re2c
+	## APACHE
+	for a in "${apac[@]}"; do
+		objcopy --strip-debug $OPENSHIFT_DATA_DIR/httpd/bin/$a
+	done
 
+	## DEPENDENCIES
+	for d in "${depen[@]}";	do
+		objcopy --strip-debug $OPENSHIFT_RUNTIME_DIR/dependencies/bin/$d
+	done
+	}
 
 	## COPY SETTING FILES
 
@@ -47,8 +45,11 @@ function start_server() {
 function wipe_out() {
 	cd $OPENSHIFT_REPO_DIR
 	rm -rf conf setup htdocs/index.cgi
-	cd .openshift/action_hooks
-	rm -f build reload restart start stop
-	mv build.tpl build && mv reload.tpl reload && mv restart.tpl restart && mv start.tpl start && mv stop.tpl stop
-	chmod +x *
+	hoo=( build reload restart start stop )
+	for h in "${hoo[@]}"; do
+		cd $OPENSHIFT_REPO_DIR/.openshift/action_hooks
+		rm -f $h
+		mv $h.tpl $h
+		chmod +x $h
+	done
 }
