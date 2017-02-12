@@ -88,7 +88,7 @@ function install_dep() {
 	make && make install
 		if [ $? -eq 0 ]; then
 			echo "ICU has successfully been installed!"
-			rm -rf icu-*
+			rm -rf icu*
 		else
 			echo "The installation of ICU has been interrupted."
 		fi
