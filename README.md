@@ -6,8 +6,6 @@ This source code provides to you a solution to have an Openshift web server with
 
 [![Install Apache & PHP7 OpenShift](http://launch-shifter.rhcloud.com/launch/Install PHP7.svg)](https://openshift.redhat.com/app/console/application_type/custom?&cartridges[]=diy-0.1&initial_git_url=https://github.com/alexviean/openshift-desired-server.git&name=php)
 
-If you want your gear scalable, you have to use the button above to create your new application. Otherwise, the option "Scaling" will be disabled when you select "Do-It-Yourself" cartridge on "Choose a type of application" list.
-
 ### Manually
 
 1. Open https://openshift.redhat.com/app/console/application_type/cart!diy-0.1 
