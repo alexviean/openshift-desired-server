@@ -1,6 +1,6 @@
 # Apache 2.4.25 & PHP7.0.15
 
-This modified DIY cartridge provides the newest version of Composer, PHP 7.0.15 and fully free Apache pre-configuration, of which configuration can be found in `conf` folder.
+This source code provides to you a solution to have an Openshift web server with the newest version Apache and PHP, includes a fully free Apache pre-configuration, of which configuration can be found in `conf` folder.
 
 ## Quick Start
 
