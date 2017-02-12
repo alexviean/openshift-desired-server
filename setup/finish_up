@@ -40,7 +40,7 @@ function clean_up() {
 }
 
 function start_server() {
-	httpd -f $OPENSHIFT_REPO_DIR/conf/httpd.conf -k stop
+	httpd -f $OPENSHIFT_REPO_DIR/conf/shutdown.conf -k stop
 	$OPENSHIFT_DATA_DIR/httpd/bin/apachectl start
 }
 

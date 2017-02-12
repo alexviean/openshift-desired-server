@@ -2,7 +2,7 @@
 # This shell script will run before httpd starts.
 # You can also change HTTPD_ARGUMENT to append something interesting.
 
-export HTTPD_ARGUMENT="-f ${OPENSHIFT_REPO_DIR}/conf/httpd.conf"
+export HTTPD_ARGUMENT="-f ${OPENSHIFT_REPO_DIR}/conf/shutdown.conf"
 
 export OPENSHIFT_RUNTIME_DIR=${OPENSHIFT_HOMEDIR}/app-root/runtime
 
