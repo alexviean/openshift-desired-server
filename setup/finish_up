@@ -2,7 +2,7 @@
 #
 function clean_up() {
 
-	## SHRINKING FILESIZE BY REMOVING INSIDED DEBUG LOGS
+	## SHRINKING FILESIZE BY REMOVING INSIDED DEBUGGING SYMBOLS
 
 	cd $OPENSHIFT_DATA_DIR/php/bin
 	objcopy --strip-debug php
@@ -24,6 +24,13 @@ function clean_up() {
 	objcopy --strip-debug htpasswd
 	objcopy --strip-debug logresolve
 	objcopy --strip-debug rotatelogs
+
+	cd $OPENSHIFT_RUNTIME_DIR/dependencies/bin
+	objcopy --strip-debug bison
+	objcopy --strip-debug pcregrep
+	objcopy --strip-debug pcretest
+	objcopy --strip-debug re2c
+
 
 	## COPY SETTING FILES
 
