@@ -8,6 +8,8 @@ function clean_up() {
 	objcopy --strip-debug php
 	objcopy --strip-debug php-cgi
 	objcopy --strip-debug phpdbg
+	cd $OPENSHIFT_DATA_DIR/php/sbin
+	objcopy --strip-debug php-fpm
 
 	cd $OPENSHIFT_DATA_DIR/httpd/modules
 	objcopy --strip-debug libphp7.so
