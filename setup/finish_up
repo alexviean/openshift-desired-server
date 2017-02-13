@@ -33,6 +33,7 @@ function clean_up() {
 
 	cp $OPENSHIFT_REPO_DIR/conf/bash_profile.tpl $OPENSHIFT_DATA_DIR/.bash_profile
 	python $OPENSHIFT_REPO_DIR/setup/conf.py
+	mkdir -p "$OPENSHIFT_DATA_DIR/php/ext" && cp $OPENSHIFT_DATA_DIR/php/lib/php/extensions/no-debug*/opcache.so $_
 
 }
 
