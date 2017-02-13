@@ -28,7 +28,6 @@ function clean_up() {
 	for d in "${depen[@]}";	do
 		objcopy --strip-debug $OPENSHIFT_RUNTIME_DIR/dependencies/bin/$d
 	done
-	}
 
 	## COPY SETTING FILES
 
