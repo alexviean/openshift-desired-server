@@ -29,10 +29,12 @@ if [ ! -e httpd ]; then
 	--with-apr=$OPENSHIFT_RUNTIME_DIR/dependencies --with-apr-util=$OPENSHIFT_RUNTIME_DIR/dependencies --with-pcre=$OPENSHIFT_RUNTIME_DIR/dependencies
 	make
 	make install
-	
-	cd $OPENSHIFT_DATA_DIR
-	rm -rf httpd-*
-	echo "APACHE has successfully been installed!"
+	if [ $q -eq 0 ]; then
+		echo "APACHE has successfully been installed!"
+		rm -rf $OPENSHIFT_DATA_DIR/httpd-*
+	else
+		echo "The installation of APACHE has been interrupted!"
+	fi
 else
 	echo "APACHE has already been installed!"
 fi
@@ -72,10 +74,12 @@ if [ ! -e php ]; then
 	--enable-mbstring --enable-soap --enable-sockets --enable-shmop --enable-dba --enable-sysvsem --enable-sysvshm --enable-sysvmsg --enable-intl --enable-opcache --enable-maintainer-zts
 	make
 	make install
-
-	cd $OPENSHIFT_DATA_DIR
-	rm -rf php-*
-	echo "PHP has successfully been installed!"
+	if [ $q -eq 0 ]; then
+		echo "PHP has successfully been installed!"
+		rm -rf $OPENSHIFT_DATA_DIR/php-*
+	else
+		echo "The installation of PHP has been interrupted!"
+	fi
 else
 	echo "PHP has already been installed!"
 fi
@@ -88,7 +92,7 @@ function check_php() {
 		return 0
 	fi
 	
-	echo "Check PHP ${PHP_VERSION} Failed. Start installing"
+	echo "Checking... PHP ${PHP_VERSION} doesn't exist! Start installing..."
 	install_dep
 	install_apache
 	install_php
