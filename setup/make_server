@@ -29,7 +29,7 @@ if [ ! -e httpd ]; then
 	--with-apr=$OPENSHIFT_RUNTIME_DIR/dependencies --with-apr-util=$OPENSHIFT_RUNTIME_DIR/dependencies --with-pcre=$OPENSHIFT_RUNTIME_DIR/dependencies
 	make
 	make install
-	if [ $q -eq 0 ]; then
+	if [ $? -eq 0 ]; then
 		echo "APACHE has successfully been installed!"
 		rm -rf $OPENSHIFT_DATA_DIR/httpd-*
 	else
@@ -71,7 +71,7 @@ if [ ! -e php ]; then
 	--with-layout=PHP --with-gd --enable-zip --enable-mbstring --enable-intl --enable-opcache
 	make
 	make install
-	if [ $q -eq 0 ]; then
+	if [ $? -eq 0 ]; then
 		echo "PHP has successfully been installed!"
 		rm -rf $OPENSHIFT_DATA_DIR/php-*
 	else
