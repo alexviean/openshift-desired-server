@@ -62,16 +62,13 @@ if [ ! -e php ]; then
 		
 	[ ! -f Makefile ] && \
 	./configure \
+	--with-libdir=lib64 \
 	--prefix=$OPENSHIFT_DATA_DIR/php/ \
 	--with-config-file-path=$OPENSHIFT_DATA_DIR/php/etc \
 	--with-apxs2=$OPENSHIFT_DATA_DIR/httpd/bin/apxs \
-	--with-mcrypt=$OPENSHIFT_RUNTIME_DIR/dependencies \
 	--with-zlib=$OPENSHIFT_RUNTIME_DIR/dependencies \
 	--with-icu-dir=$OPENSHIFT_RUNTIME_DIR/dependencies \
-	--with-layout=PHP --disable-fileinfo --disable-debug --with-curl --with-mhash --with-pgsql --with-mysqli --with-pdo-mysql --with-pdo-pgsql --with-openssl --with-xmlrpc --with-xsl \
-	--with-bz2 --with-gettext --with-readline --with-kerberos --with-gd --with-jpeg-dir --with-png-dir --with-png-dir --with-xpm-dir --with-freetype-dir --without-pear \
-	--enable-gd-native-ttf --enable-fpm --enable-cli --enable-inline-optimization --enable-exif --enable-wddx --enable-zip --enable-bcmath --enable-calendar --enable-ftp \
-	--enable-mbstring --enable-soap --enable-sockets --enable-shmop --enable-dba --enable-sysvsem --enable-sysvshm --enable-sysvmsg --enable-intl --enable-opcache --enable-maintainer-zts
+	--with-layout=PHP --with-gd --enable-zip --enable-mbstring --enable-intl --enable-opcache
 	make
 	make install
 	if [ $q -eq 0 ]; then

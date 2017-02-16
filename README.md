@@ -1,4 +1,4 @@
-# Apache 2.4.25 & PHP 7.0.15
+# Apache 2.4.25 & PHP 5.6.30
 
 This source code provides to you a solution to have an Openshift web server with the newest version Apache and PHP, includes a fully free Apache pre-configuration, of which configuration can be found in `conf` folder.
 
@@ -17,7 +17,7 @@ This source code provides to you a solution to have an Openshift web server with
 ### Tips
 
 * The first building lasts for ~20 minutes, the progress can be seen on your app page (eg. https://foo-bar.rhcloud.com )
-* By default, PHP 7.0.15 is choosen, which can be found in `setup/make.sh`
+* By default, PHP 5.6.30 is choosen, which can be found in `setup/make.sh`
 * If you are using Windows, please follow the Quick Start instruction!!!
 * The OpenShift `diy` cartridge documentation can be found at:
 http://openshift.github.io/documentation/oo_cartridge_guide.html#diy
