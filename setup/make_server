@@ -69,6 +69,48 @@ if [ ! -e php ]; then
 	--with-zlib=$OPENSHIFT_RUNTIME_DIR/dependencies \
 	--with-icu-dir=$OPENSHIFT_RUNTIME_DIR/dependencies \
 	--with-layout=PHP --with-gd --enable-zip --enable-mbstring --enable-intl --enable-opcache
+	            
+	--with-libdir=lib64 \
+	--prefix=$OPENSHIFT_DATA_DIR/php/ \
+	--with-config-file-path=$OPENSHIFT_DATA_DIR/php/etc \
+	--with-layout=PHP \
+	--with-curl \
+	--with-pear \
+	--with-gd \
+	--with-zlib \
+	--with-mhash \
+	--with-pgsql \
+	--with-mysqli \
+	--with-pdo-mysql \
+	--with-pdo-pgsql \
+	--with-openssl \
+	--with-xmlrpc \
+	--with-xsl \
+	--with-bz2 \
+	--with-gettext \
+	--with-readline \
+	--with-kerberos \
+	--disable-debug \
+	--disable-fileinfo \
+	--enable-cli \
+	--enable-inline-optimization \
+	--enable-exif \
+	--enable-wddx \
+	--enable-zip \
+	--enable-bcmath \
+	--enable-calendar \
+	--enable-ftp \
+	--enable-mbstring \
+	--enable-soap \
+	--enable-sockets \
+	--enable-shmop \
+	--enable-dba \
+	--enable-sysvsem \
+	--enable-sysvshm \
+	--enable-sysvmsg \
+	--enable-opcache
+
+
 	make
 	make install
 	if [ $? -eq 0 ]; then
