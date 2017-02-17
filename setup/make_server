@@ -51,7 +51,7 @@ if [ ! -e php ]; then
 	else
 		echo "Downloading PHP source code"
 		wget -nv $PHP_MIRROR/php-${PHP_VERSION}.tar.gz && \
-	  if [ $? != 0 ]; then
+	  if [ $? -ne 0 ]; then
 		echo "ERROR! CANNOT DOWNLOAD php-${PHP_VERSION}"
 		return 1
 	  fi
@@ -62,14 +62,6 @@ if [ ! -e php ]; then
 		
 	[ ! -f Makefile ] && \
 	./configure \
-	--with-libdir=lib64 \
-	--prefix=$OPENSHIFT_DATA_DIR/php/ \
-	--with-config-file-path=$OPENSHIFT_DATA_DIR/php/etc \
-	--with-apxs2=$OPENSHIFT_DATA_DIR/httpd/bin/apxs \
-	--with-zlib=$OPENSHIFT_RUNTIME_DIR/dependencies \
-	--with-icu-dir=$OPENSHIFT_RUNTIME_DIR/dependencies \
-	--with-layout=PHP --with-gd --enable-zip --enable-mbstring --enable-intl --enable-opcache
-	            
 	--with-libdir=lib64 \
 	--prefix=$OPENSHIFT_DATA_DIR/php/ \
 	--with-config-file-path=$OPENSHIFT_DATA_DIR/php/etc \
