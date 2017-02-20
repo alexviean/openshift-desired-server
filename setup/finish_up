@@ -11,22 +11,22 @@ function clean_up() {
 
 	## SINGLE
 	for s in "${single[@]}"; do
-		objcopy --strip-debug $OPENSHIFT_DATA_DIR/$s
+		strip $OPENSHIFT_DATA_DIR/$s
 	done
 
 	## PHP
 	for p in "${ph[@]}"; do
-		objcopy --strip-debug $OPENSHIFT_DATA_DIR/php/bin/$p
+		strip $OPENSHIFT_DATA_DIR/php/bin/$p
 	done
 
 	## APACHE
 	for a in "${apac[@]}"; do
-		objcopy --strip-debug $OPENSHIFT_DATA_DIR/httpd/bin/$a
+		strip $OPENSHIFT_DATA_DIR/httpd/bin/$a
 	done
 
 	## DEPENDENCIES
 	for d in "${depen[@]}";	do
-		objcopy --strip-debug $OPENSHIFT_RUNTIME_DIR/dependencies/bin/$d
+		strip $OPENSHIFT_RUNTIME_DIR/dependencies/bin/$d
 	done
 
 	## COPY SETTING FILES
